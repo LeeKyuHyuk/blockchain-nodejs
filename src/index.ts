@@ -1,4 +1,5 @@
 import { addBlock, createBlockchain } from "./Blockchain";
+import { createProofOfWork, validate } from "./ProofOfWork";
 
 function main() {
   const blockchain = createBlockchain();
@@ -11,7 +12,9 @@ function main() {
     console.log(`Prev. hash: ${block.prevBlockHash}`);
     console.log(`Data: ${block.data}`);
     console.log(`Hash: ${block.hash}`);
-    console.log();
+
+    const pow = createProofOfWork(block);
+    console.log(`PoW: ${validate(pow)}\n`);
   }
 }
 

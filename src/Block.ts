@@ -1,10 +1,12 @@
 import { createHash } from "crypto";
+import { createProofOfWork, run } from "./ProofOfWork";
 
 export type Block = {
   timestamp: number;
   data: string;
   prevBlockHash: string;
   hash?: string;
+  nonce?: number;
 };
 
 function setHash(block: Block): string {
@@ -19,6 +21,9 @@ export function createBlock(data: string, prevBlockHash: string): Block {
     data,
     prevBlockHash,
   };
-  block.hash = setHash(block);
+  const pow = createProofOfWork(block);
+  const { nonce, hash } = run(pow);
+  block.hash = hash;
+  block.nonce = nonce;
   return block;
 }
